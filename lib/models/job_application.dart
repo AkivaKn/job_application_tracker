@@ -20,6 +20,8 @@ class JobApplication {
   DateTime? appliedDate;
   @HiveField(7)
   DateTime? interviewDate;
+  @HiveField(8)
+  String? jobUrl;
 
   JobApplication({
     required this.jobTitle,
@@ -30,5 +32,6 @@ class JobApplication {
     this.salary,
     this.appliedDate,
     this.interviewDate,
+    this.jobUrl,
   });
 }

@@ -27,6 +27,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
   DateTime? _interviewDate;
   TextEditingController _interviewDatePickerController =
       TextEditingController();
+  String? _jobUrl;
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
       _interviewDatePickerController.text = _interviewDate != null
           ? DateFormat.yMd().format(_interviewDate ?? DateTime.now())
           : '';
+      _jobUrl = widget.job!.jobUrl;
     }
   }
 
@@ -121,6 +123,13 @@ class _JobDetailPageState extends State<JobDetailPage> {
                   } else {
                     _salary = int.tryParse(value);
                   }
+                },
+              ),
+               TextFormField(
+                initialValue: widget.job?.jobUrl ?? '',
+                decoration: InputDecoration(labelText: 'Job Link'),
+                onSaved: (value) {
+                  _jobUrl = value ?? '';
                 },
               ),
               TextFormField(
@@ -208,6 +217,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
                       status: _status,
                       appliedDate: _appliedDate,
                       interviewDate: _interviewDate,
+                      jobUrl: _jobUrl,
                     );
 
                     if (widget.index == null) {
