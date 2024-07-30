@@ -17,7 +17,9 @@ class JobApplication {
   @HiveField(5)
   String status;
   @HiveField(6)
-  DateTime? createdAt;
+  DateTime? appliedDate;
+  @HiveField(7)
+  DateTime? interviewDate;
 
   JobApplication({
     required this.jobTitle,
@@ -26,6 +28,7 @@ class JobApplication {
     this.jobSite,
     this.location,
     this.salary,
-    this.createdAt,
+    this.appliedDate,
+    this.interviewDate,
   });
 }

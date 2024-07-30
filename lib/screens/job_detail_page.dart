@@ -22,8 +22,11 @@ class _JobDetailPageState extends State<JobDetailPage> {
   String? _location;
   int? _salary;
   String _status = 'Applied';
-  DateTime? _createdAt;
-  TextEditingController _datePickerController = TextEditingController();
+  DateTime? _appliedDate;
+  TextEditingController _appliedDatePickerController = TextEditingController();
+  DateTime? _interviewDate;
+  TextEditingController _interviewDatePickerController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -35,16 +38,20 @@ class _JobDetailPageState extends State<JobDetailPage> {
       _location = widget.job!.location;
       _salary = widget.job!.salary;
       _status = widget.job!.status;
-      _createdAt = widget.job!.createdAt;
-      _datePickerController.text = _createdAt != null
-          ? DateFormat.yMd().format(_createdAt ?? DateTime.now())
+      _appliedDate = widget.job!.appliedDate;
+      _appliedDatePickerController.text = _appliedDate != null
+          ? DateFormat.yMd().format(_appliedDate ?? DateTime.now())
+          : '';
+      _interviewDate = widget.job!.interviewDate;
+      _interviewDatePickerController.text = _interviewDate != null
+          ? DateFormat.yMd().format(_interviewDate ?? DateTime.now())
           : '';
     }
   }
 
   @override
   void dispose() {
-    _datePickerController.dispose();
+    _appliedDatePickerController.dispose();
     super.dispose();
   }
 
@@ -117,24 +124,47 @@ class _JobDetailPageState extends State<JobDetailPage> {
                 },
               ),
               TextFormField(
-                controller: _datePickerController,
+                controller: _appliedDatePickerController,
                 readOnly: true,
                 decoration: InputDecoration(
-                  labelText: 'Date Created',
+                  labelText: 'Applied Date',
                   hintText: "Click here to select date",
                 ),
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
                     context: context,
-                    initialDate: _createdAt ?? DateTime.now(),
+                    initialDate: _appliedDate ?? DateTime.now(),
                     firstDate: DateTime(2020),
                     lastDate: DateTime(2030),
                   );
                   if (pickedDate != null) {
                     setState(() {
-                      _createdAt = pickedDate;
-                      _datePickerController.text =
-                          _createdAt!.toLocal().toString().split(' ')[0];
+                      _appliedDate = pickedDate;
+                      _appliedDatePickerController.text = DateFormat.yMd()
+                          .format(_appliedDate ?? DateTime.now());
+                    });
+                  }
+                },
+              ),
+              TextFormField(
+                controller: _interviewDatePickerController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Interview Date',
+                  hintText: "Click here to select date",
+                ),
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: _interviewDate ?? DateTime.now(),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime(2030),
+                  );
+                  if (pickedDate != null) {
+                    setState(() {
+                      _interviewDate = pickedDate;
+                      _interviewDatePickerController.text = DateFormat.yMd()
+                          .format(_interviewDate ?? DateTime.now());
                     });
                   }
                 },
@@ -176,7 +206,8 @@ class _JobDetailPageState extends State<JobDetailPage> {
                       location: _location,
                       salary: _salary,
                       status: _status,
-                      createdAt: _createdAt ?? DateTime.now(),
+                      appliedDate: _appliedDate,
+                      interviewDate: _interviewDate,
                     );
 
                     if (widget.index == null) {
